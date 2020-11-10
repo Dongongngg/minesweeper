@@ -1,0 +1,6 @@
+@import "../../styles/index.scss";
+.CellBtn {
+  width: 30px;
+  height: 30px;
+  @include borders;
+}

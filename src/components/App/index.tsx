@@ -1,21 +1,28 @@
 import React, { useState } from "react";
 import "./App.scss";
-import Number from "../Number";
-//
+//components
+import NumberPad from "../NumberPad";
+//functions
 import createCells from "../../util";
+import CellBtn from "../CellBtn";
 
 const App: React.FC = () => {
   const [cells, setCells] = useState(createCells());
+  const renderCells = () => {
+    return cells.map((row, rowIndex) =>
+      row.map((cell, colIndex) => <CellBtn key={`${rowIndex}-${colIndex}`} />)
+    );
+  };
   return (
     <div className="App">
       <div className="Header">
-        <Number value={0}></Number>
+        <NumberPad value={0}></NumberPad>
         <div className="face">
           <i className="fa fa-smile-o" aria-hidden="true"></i>
         </div>
-        <Number value={11}></Number>
+        <NumberPad value={11}></NumberPad>
       </div>
-      <div className="Body">ssssds</div>
+      <div className="Body">{renderCells()}</div>
     </div>
   );
 };
