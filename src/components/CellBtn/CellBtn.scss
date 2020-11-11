@@ -2,5 +2,42 @@
 .CellBtn {
   width: 30px;
   height: 30px;
+  font-size: 20px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   @include borders;
+  @include buttons;
+  .fa-bomb {
+    font-size: 25px;
+  }
+  &.CellOpen {
+    border-color: #7b7b7b;
+    border-width: 1px;
+  }
+  &.color-1 {
+    color: blue;
+  }
+  &.color-2 {
+    color: green;
+  }
+  &.color-3 {
+    color: red;
+  }
+  &.color-4 {
+    color: purple;
+  }
+  &.color-5 {
+    color: maroon;
+  }
+  &.color-6 {
+    color: turquoise;
+  }
+  &.color-7 {
+    color: black;
+  }
+  &.color-8 {
+    color: grey;
+  }
 }

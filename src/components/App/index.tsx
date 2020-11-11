@@ -3,14 +3,20 @@ import "./App.scss";
 //components
 import NumberPad from "../NumberPad";
 //functions
-import createCells from "../../util";
+import { createCells } from "../../util";
 import CellBtn from "../CellBtn";
 
 const App: React.FC = () => {
   const [cells, setCells] = useState(createCells());
   const renderCells = () => {
     return cells.map((row, rowIndex) =>
-      row.map((cell, colIndex) => <CellBtn key={`${rowIndex}-${colIndex}`} />)
+      row.map((cell, colIndex) => (
+        <CellBtn
+          key={`${rowIndex}-${colIndex}`}
+          value={cell.value}
+          state={cell.state}
+        />
+      ))
     );
   };
   return (

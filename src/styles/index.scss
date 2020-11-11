@@ -1,4 +1,10 @@
 @mixin buttons {
+  &:active {
+    border-top-color: #7b7b7b;
+    border-left-color: #7b7b7b;
+    border-bottom-color: white;
+    border-right-color: white;
+  }
 }
 
 @mixin borders($left-top: white, $right-bottom: #7b7b7b) {
