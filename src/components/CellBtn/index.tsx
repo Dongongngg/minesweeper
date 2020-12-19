@@ -1,14 +1,25 @@
-import React from "react";
-import { CellState, CellValue } from "../../types";
+import React from 'react';
+import { CellState, CellValue } from '../../types';
 //styles
-import "./CellBtn.scss";
+import './CellBtn.scss';
 
 interface CellBtnProps {
   value: CellValue;
   state: CellState;
+  onClick(col: number, row: number): (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  onContext(col: number, row: number): (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  x: number;
+  y: number;
 }
 
-const CellBtn: React.FC<CellBtnProps> = ({ value, state }) => {
+const CellBtn: React.FC<CellBtnProps> = ({
+  value,
+  state,
+  onClick,
+  onContext,
+  x,
+  y,
+}: CellBtnProps) => {
   const renderNumber = (): React.ReactNode => {
     if (state === CellState.open) {
       if (value === CellValue.bomb) {
@@ -25,9 +36,11 @@ const CellBtn: React.FC<CellBtnProps> = ({ value, state }) => {
   return (
     <div
       className={
-        `CellBtn${state === CellState.open ? " CellOpen" : ""}` +
-        ` color-${value}`
+        `CellBtn${state === CellState.open ? ' CellOpen' : ''}` +
+        `${state === CellState.flag ? ' color-flag' : ` color-${value}`}`
       }
+      onClick={onClick(x, y)}
+      onContextMenu={onContext(x, y)}
     >
       {renderNumber()}
     </div>

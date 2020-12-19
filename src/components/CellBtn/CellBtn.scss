@@ -1,4 +1,4 @@
-@import "../../styles/index.scss";
+@import '../../styles/index.scss';
 .CellBtn {
   width: 30px;
   height: 30px;
@@ -15,6 +15,9 @@
   &.CellOpen {
     border-color: #7b7b7b;
     border-width: 1px;
+  }
+  &.color-flag {
+    color: red;
   }
   &.color-1 {
     color: blue;

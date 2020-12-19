@@ -1,15 +1,15 @@
-import { COLUMN, ROW, BOMBS } from "../config/const";
-import { Cell, CellValue, CellState } from "../types";
+import { COLUMN, ROW, BOMBS } from '../config/const';
+import { Cell, CellValue, CellState } from '../types';
 
 export const createCells = () => {
   //  Create all the cell items with initial value and state
-  let cells: Cell[][] = [];
+  const cells: Cell[][] = [];
   for (let row = 0; row < ROW; row++) {
     cells.push([]);
     for (let column = 0; column < COLUMN; column++) {
       cells[row].push({
         value: CellValue.none,
-        state: CellState.open,
+        state: CellState.hide,
       });
     }
   }
@@ -19,7 +19,7 @@ export const createCells = () => {
   while (bombCount < BOMBS) {
     const x = Math.floor(Math.random() * ROW);
     const y = Math.floor(Math.random() * COLUMN);
-    let crtCell = cells[x][y];
+    const crtCell = cells[x][y];
     if (crtCell.value !== CellValue.bomb) {
       cells[x][y] = { ...cells[x][y], value: CellValue.bomb };
     }
@@ -34,7 +34,7 @@ export const createCells = () => {
 
   for (let x = 0; x < ROW; x++) {
     for (let y = 0; y < COLUMN; y++) {
-      let crtCell = cells[x][y];
+      const crtCell = cells[x][y];
 
       let displayNumber = 0;
 
@@ -46,8 +46,7 @@ export const createCells = () => {
         const left = x > 0 ? cells[x - 1][y] : null;
         const topRight = y > 0 && x < ROW - 1 ? cells[x + 1][y - 1] : null;
         const topLeft = y > 0 && x > 0 ? cells[x - 1][y - 1] : null;
-        const bottomRight =
-          y < COLUMN - 1 && x < ROW - 1 ? cells[x + 1][y + 1] : null;
+        const bottomRight = y < COLUMN - 1 && x < ROW - 1 ? cells[x + 1][y + 1] : null;
         const bottomLeft = y < COLUMN - 1 && x > 0 ? cells[x - 1][y + 1] : null;
 
         //  Check if has bomb around
