@@ -6,6 +6,7 @@ import './CellBtn.scss';
 interface CellBtnProps {
   value: CellValue;
   state: CellState;
+  red?: boolean;
   onClick(col: number, row: number): (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
   onContext(col: number, row: number): (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
   x: number;
@@ -15,6 +16,7 @@ interface CellBtnProps {
 const CellBtn: React.FC<CellBtnProps> = ({
   value,
   state,
+  red,
   onClick,
   onContext,
   x,
@@ -37,7 +39,8 @@ const CellBtn: React.FC<CellBtnProps> = ({
     <div
       className={
         `CellBtn${state === CellState.open ? ' CellOpen' : ''}` +
-        `${state === CellState.flag ? ' color-flag' : ` color-${value}`}`
+        `${state === CellState.flag ? ' color-flag' : ` color-${value}`}` +
+        `${red ? ' bg-red' : ''}`
       }
       onClick={onClick(x, y)}
       onContextMenu={onContext(x, y)}

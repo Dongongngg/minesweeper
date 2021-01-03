@@ -59,10 +59,10 @@ export const createCells = (): Cell[][] => {
     const y = Math.floor(Math.random() * COLUMN);
     const crtCell = cells[x][y];
     if (crtCell.value !== CellValue.bomb) {
-      cells[x][y] = { ...cells[x][y], value: CellValue.bomb };
+      crtCell.value = CellValue.bomb;
+      bombCount++;
     }
 
-    bombCount++;
     if (bombCount === BOMBS) {
       break;
     }
