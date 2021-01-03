@@ -52,40 +52,36 @@ const App: React.FC = () => {
     if (!startFlag) {
       setStartFlag(true);
     }
+    let safeCells = 0;
     const crtCell = cells[row][col];
     const newCells = cells.slice();
     if (crtCell.state === CellState.flag || crtCell.state === CellState.open) {
       return;
     }
     if (crtCell.value === CellValue.bomb) {
-      setLostFlag(true);
       newCells[row][col].red = true;
       setCells(newCells);
+      setLostFlag(true);
       return;
     } else if (crtCell.value === CellValue.none) {
       openMultipleCellsOnClick(newCells, row, col);
     } else {
       newCells[row][col].state = CellState.open;
+      for (let x = 0; x < ROW; x++) {
+        for (let y = 0; y < COLUMN; y++) {
+          if (newCells[x][y].state === CellState.open) {
+            // number of open cells
+            safeCells++;
+          }
+        }
+      }
       setCells(newCells);
     }
 
     // check if win
     //  if safe cells equals (all cells - bombs), game wins
-    let bombsCount = 0;
-    let openedCells = 0;
-    for (const x in cells) {
-      for (const y in cells[x]) {
-        if (cells[x][y].value === CellValue.bomb) {
-          // number of bombs
-          bombsCount++;
-        }
-        if (cells[x][y].state === CellState.open) {
-          // number of bombs
-          openedCells++;
-        }
-      }
-    }
-    if (ROW * COLUMN - openedCells === bombsCount) {
+
+    if (ROW * COLUMN - safeCells === BOMBS) {
       setWinFlag(true);
     }
   };
@@ -105,7 +101,6 @@ const App: React.FC = () => {
   //  win the game
   useEffect(() => {
     if (winFlag) {
-      setStartFlag(false);
       setFace(Face.win);
     }
   }, [winFlag]);
@@ -136,11 +131,13 @@ const App: React.FC = () => {
   // click the face
   const handleFaceClick = (): void => {
     if (startFlag) {
-      setCells(createCells());
-      setTime(0);
-      setFace(Face.smile);
       setLostFlag(false);
       setWinFlag(false);
+      setStartFlag(true);
+      setTime(0);
+      setCounter(BOMBS);
+      setFace(Face.smile);
+      setCells(createCells());
     }
   };
 
