@@ -3,10 +3,10 @@ import './App.scss';
 //components
 import NumberPad from '../NumberPad';
 //functions
-import { createCells } from '../../util';
+import { createCells, openMultipleCellsOnClick } from '../../util';
 import CellBtn from '../CellBtn';
 //types
-import { Cell, CellState } from '../../types';
+import { Cell, CellState, CellValue } from '../../types';
 
 const App: React.FC = () => {
   const Face = {
@@ -36,13 +36,28 @@ const App: React.FC = () => {
       window.removeEventListener('mouseup', handleMouseup);
     };
   }, []);
-
+  //  if click on flag, do nothing
+  //  if click on none, create new cells by openMultipleCellsOnClick()
+  //  if click on bomb at begining,
   const handleCellClick = (col: number, row: number) => (): void => {
     console.log(col, row);
     if (!startFlag) {
       setStartFlag(true);
     }
+    const crtCell = cells[row][col];
+    const newCells = cells.slice();
+    if (crtCell.state === CellState.flag || crtCell.state === CellState.open) {
+      return;
+    }
+    if (crtCell.value === CellValue.bomb) {
+    } else if (crtCell.value === CellValue.none) {
+      openMultipleCellsOnClick(newCells, row, col);
+    } else {
+      newCells[row][col].state = CellState.open;
+      setCells(newCells);
+    }
   };
+
   const handleCellRightClick = (col: number, row: number) => (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ): void => {
@@ -51,13 +66,17 @@ const App: React.FC = () => {
       return;
     }
     const crtCell = cells[row][col];
-    const newCell = cells.slice();
+    const newCells = cells.slice();
     if (crtCell.state === CellState.open) {
       return;
     } else if (crtCell.state === CellState.hide) {
-      newCell[row][col].state = CellState.flag;
-      setCells(newCell);
+      newCells[row][col].state = CellState.flag;
+      setCells(newCells);
       setCounter(counter - 1);
+    } else {
+      newCells[row][col].state = CellState.hide;
+      setCells(newCells);
+      setCounter(counter + 1);
     }
 
     console.log('right click');
